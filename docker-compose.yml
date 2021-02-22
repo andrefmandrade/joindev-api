@@ -1,0 +1,23 @@
+version: '3.7'
+services: 
+  db:
+    image: mysql
+    container_name: joindev-mysql-container
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    environment: 
+      MYSQL_ROOT_PASSWORD: dockerapi
+    volumes: 
+      - ./api/db/data:/var/lib/mysql
+    ports: 
+      - '3306:3306'
+  api:
+    build: './api'
+    container_name: joindev-node-container
+    restart: always
+    volumes: 
+      - ./api:/home/node/app
+    ports: 
+      - '4000:4000'
+    depends_on: 
+      - db
