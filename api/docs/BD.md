@@ -4,10 +4,10 @@
 - name
 - email
 - password
-- is_company
 - photo
-- city_id
-- state_id
+- is_company
+- id_city
+- id_state
 - confimated_at
 - created_at
 - updated_at

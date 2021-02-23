@@ -1,6 +1,6 @@
 const UsersRepository = require('../repositories/UsersRepository');
 const CreateUserService = require('../services/CreateUserService');
-const SendWelcomeEmailService = require('../../mails/services/SendWelcomeEmailService');
+const SendActivationEmailService = require('../../mails/services/SendActivationEmailService');
 const AppError = require('../../../shared/errors/AppError');
 const { isEmpty, isEmail } = require('../../../shared/utils');
 
@@ -8,7 +8,7 @@ const usersRepository = new UsersRepository();
 
 class UsersController {
   async createUser(req, res) {
-    const { name, email, password, is_company } = req.body;
+    const { name, email, password, isCompany } = req.body;
 
     if (isEmpty(name, email, password))
       throw new AppError(
@@ -30,11 +30,14 @@ class UsersController {
       name,
       email,
       password,
-      is_company,
+      isCompany,
     });
 
-    const sendWelcomeEmailService = new SendWelcomeEmailService();
-    sendWelcomeEmailService.execute(email);
+    const sendActivationEmailService = new SendActivationEmailService();
+    sendActivationEmailService.execute({
+      email,
+      url: `/activate?user=${user.userToken}`,
+    });
 
     return res.json({
       success: true,
