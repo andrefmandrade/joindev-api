@@ -1,0 +1,279 @@
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      * {
+        outline: none !important;
+        margin: 0;
+        padding: 0;
+        font-weight: 500;
+        box-sizing: border-box;
+      }
+
+      body,
+      html {
+        height: 100%;
+      }
+
+      body {
+        background: #212121;
+        display: flex;
+        flex-direction: column;
+        color: #fff;
+        align-items: center;
+        justify-content: center;
+
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility !important;
+        -moz-osx-font-smoothing: grayscale;
+        font-family: sans-serif;
+      }
+
+      h1 {
+        font-size: 3.5rem;
+        font-weight: 500;
+        color: #007bdb;
+        padding-bottom: 20px;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        padding: 30px 0 40px;
+        color: #fff;
+        text-align: center;
+        font-weight: 300;
+      }
+
+      form {
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      input {
+        height: 45px;
+        background: #fff;
+        border: 0;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        padding-left: 15px;
+        font-size: 16px;
+        color: #000;
+        caret-color: #007bdb;
+        width: 100%;
+      }
+
+      button {
+        height: 45px;
+        background: #007bdb;
+        border: 0;
+        border-radius: 5px;
+        margin-top: 15px;
+        margin-bottom: 30px;
+        font-size: 16px;
+        color: #fff;
+        font-weight: bold;
+        padding: 0 80px;
+      }
+
+      ::placeholder {
+        color: #aaa;
+      }
+
+      #feedback {
+        display: none;
+        padding: 60px 0;
+      }
+
+      #container_snackbar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #snackbar {
+        visibility: hidden;
+        min-width: 200px;
+        max-width: 300px;
+        background-color: rgb(197, 74, 74);
+        border: 1px solid rgb(131, 43, 43);
+        color: #fff;
+        text-align: center;
+        border-radius: 5px;
+        padding: 15px;
+        position: fixed;
+        z-index: 1;
+        bottom: 30px;
+      }
+
+      #snackbar.show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+      }
+
+      @-webkit-keyframes fadein {
+        from {
+          bottom: 0;
+          opacity: 0;
+        }
+
+        to {
+          bottom: 30px;
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadein {
+        from {
+          bottom: 0;
+          opacity: 0;
+        }
+
+        to {
+          bottom: 30px;
+          opacity: 1;
+        }
+      }
+
+      @-webkit-keyframes fadeout {
+        from {
+          bottom: 30px;
+          opacity: 1;
+        }
+
+        to {
+          bottom: 0;
+          opacity: 0;
+        }
+      }
+
+      @keyframes fadeout {
+        from {
+          bottom: 30px;
+          opacity: 1;
+        }
+
+        to {
+          bottom: 0;
+          opacity: 0;
+        }
+      }
+
+      @media (max-width: 600px) {
+        body {
+          padding: 80px 20px;
+          justify-content: flex-start;
+        }
+
+        h1 {
+          font-size: 2.5rem;
+          font-weight: bold;
+          color: #007bdb;
+          padding-bottom: 40px;
+        }
+
+        h2 {
+          font-size: 1.3rem;
+          padding: 20px 0;
+          text-align: center;
+        }
+      }
+    </style>
+    <title>Joindev</title>
+  </head>
+
+  <body>
+    <h1>Joindev</h1>
+
+    <form onsubmit="submitUpdatePassword(event)" id="formChangePassword">
+      <h2>Preencha os campos abaixo para atualizar sua senha</h2>
+
+      <input
+        type="password"
+        id="password"
+        required
+        minlength="6"
+        placeholder="Nova senha"
+      />
+      <input
+        type="password"
+        id="repeatPassword"
+        required
+        minlength="6"
+        placeholder="Confirme a nova senha"
+      />
+      <button type="submit" id="buttonSubmit">Salvar</button>
+    </form>
+
+    <h2 id="feedback"></h2>
+
+    <div id="container_snackbar">
+      <div id="snackbar"></div>
+    </div>
+
+    <script>
+      function submitUpdatePassword(event) {
+        event.preventDefault();
+        const password = document.getElementById('password').value;
+        const repeatPassword = document.getElementById('repeatPassword').value;
+
+        if (password !== repeatPassword)
+          return showErrorToast('As senhas inseridas devem ser iguais');
+
+        loadingButton();
+        const urlParams = new URLSearchParams(window.location.search);
+        const usr = urlParams.get('usr');
+        const req = urlParams.get('req');
+
+        const headers = new Headers();
+        headers.append('usr', usr);
+        headers.append('req', req);
+        headers.append('Content-Type', 'application/json');
+
+        fetch('http://localhost:3001/resetPasswords', {
+          headers,
+          method: 'PUT',
+          body: JSON.stringify({ password, repeatPassword }),
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            const form = document.getElementById('formChangePassword');
+            form.style.display = 'none';
+            const feedback = document.getElementById('feedback');
+            feedback.innerText = res.message;
+            feedback.style.display = 'block';
+          })
+          .catch((err) => {
+            const form = document.getElementById('formChangePassword');
+            form.style.display = 'none';
+            const feedback = document.getElementById('feedback');
+            feedback.innerText = err.toString();
+            feedback.style.display = 'block';
+          });
+      }
+
+      function showErrorToast(message) {
+        const toast = document.getElementById('snackbar');
+        toast.innerText = message;
+        toast.className = 'show';
+        setTimeout(
+          () => (toast.className = toast.className.replace('show', '')),
+          3000
+        );
+      }
+
+      function loadingButton(isLoading = true) {
+        const buttonSubmit = document.getElementById('buttonSubmit');
+        buttonSubmit.innerText = isLoading ? 'Carregando...' : 'Salvar';
+      }
+    </script>
+  </body>
+</html>

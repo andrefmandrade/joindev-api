@@ -1,0 +1,120 @@
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      * {
+        outline: none !important;
+        margin: 0;
+        padding: 0;
+        font-weight: 500;
+        box-sizing: border-box;
+      }
+
+      body,
+      html {
+        height: 100%;
+      }
+
+      body {
+        background: #212121;
+        display: flex;
+        flex-direction: column;
+        color: #fff;
+        align-items: center;
+        justify-content: center;
+
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility !important;
+        font-family: sans-serif;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      h1 {
+        font-size: 3.5rem;
+        font-weight: 500;
+        color: #007bdb;
+        padding-bottom: 20px;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        padding: 30px 0 40px;
+        color: #fff;
+        font-weight: 300;
+      }
+
+      h2:first-child {
+        padding-bottom: 40px;
+        color: #fff;
+      }
+
+      div {
+        max-width: 800px;
+      }
+
+      ul {
+        font-size: 1.3rem;
+        padding-left: 30px;
+      }
+
+      ul li {
+        padding: 2px 0;
+        color: #fff;
+        font-weight: 300;
+      }
+
+      @media (max-width: 600px) {
+        body {
+          padding: 60px 20px;
+          justify-content: flex-start;
+        }
+
+        h1 {
+          font-size: 2.5rem;
+          font-weight: bold;
+          color: #007bdb;
+          padding-bottom: 40px;
+        }
+
+        h2 {
+          font-size: 1.3rem;
+          padding-bottom: 20px;
+          padding-top: 20px;
+        }
+
+        h2:first-child {
+          text-align: center;
+        }
+
+        ul {
+          font-size: 1rem;
+          padding-left: 30px;
+          color: #fff;
+        }
+
+        ul li {
+          padding: 2px 0;
+          color: #fff;
+          font-weight: 300;
+        }
+      }
+    </style>
+    <title>Joindev</title>
+  </head>
+
+  <body>
+    <h1>Joindev</h1>
+
+    <div>
+      <h2>O link para recuperação de senha é inválido</h2>
+
+      <h2>Possíveis Motivos:</h2>
+      <ul>
+        <li>O tempo permitido de acesso expirou</li>
+        <li>A chave de autenticação é inválida</li>
+        <li>O link original pode ter sofrido modificações</li>
+      </ul>
+    </div>
+  </body>
+</html>
