@@ -1,16 +1,15 @@
 version: '3.7'
 services: 
   db:
-    image: mysql
-    container_name: joindev-mysql-container
+    image: postgres
+    container_name: joindev-postgres-container
     restart: always
-    command: --default-authentication-plugin=mysql_native_password
     environment: 
-      MYSQL_ROOT_PASSWORD: dockerapi
+      POSTGRES_PASSWORD: joindev
     volumes: 
-      - ./api/db/data:/var/lib/mysql
+      - ./api/db/data:/var/lib/postgres
     ports: 
-      - '3306:3306'
+      - '5432:5432'
   api:
     build: './api'
     container_name: joindev-node-container
