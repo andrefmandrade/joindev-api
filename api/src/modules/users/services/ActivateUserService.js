@@ -20,7 +20,14 @@ class ActivateUserService {
         'Conta já verificada'
       );
 
-    return await this.repository.activateUser(usersExists.email);
+    const activateUser = await this.repository.activateUser(usersExists.email);
+
+    if (!activateUser)
+      throw new AppError(
+        'Não foi possível ativar a conta'
+      );
+
+    return activateUser;
   }
 }
 
