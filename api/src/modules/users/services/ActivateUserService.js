@@ -15,14 +15,12 @@ class ActivateUserService {
         'O usuário não foi encontrado'
       );
 
-    const user = usersExists;
-
-    if (!isEmpty(user.confirmated_at))
+    if (!isEmpty(usersExists.confirmated_at))
       throw new AppError(
         'Conta já verificada'
       );
 
-    return await this.repository.activateUser(user.email);
+    return await this.repository.activateUser(usersExists.email);
   }
 }
 

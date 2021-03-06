@@ -25,7 +25,8 @@ class UsersRepository {
       .update({
         confirmated_at: new Date()
       },
-      ['email', 'confirmated_at']);
+        ['email', 'confirmated_at']
+      );
 
     return activateUser;
   }

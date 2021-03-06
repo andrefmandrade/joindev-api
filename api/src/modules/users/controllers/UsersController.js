@@ -42,7 +42,7 @@ class UsersController {
 
     return res.json({
       success: true,
-      message: 'Ok',
+      message: 'Usuário criado com sucesso',
     });
   }
 
@@ -50,11 +50,15 @@ class UsersController {
     const { userToken } = req.params;
 
     const activateUserService = new ActivateUserService(usersRepository);
-    const isActivation = await activateUserService.execute({
+    const activationComplete = await activateUserService.execute({
       userToken
     });
 
-    return res.json(isActivation);
+    return res.json({
+      success: true,
+      message: 'Conta ativada com sucesso',
+      user: activationComplete
+    });
   }
 }
 
