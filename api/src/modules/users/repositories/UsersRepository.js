@@ -28,9 +28,8 @@ class UsersRepository {
         ['email', 'confirmated_at']
       );
 
-    if(!activateUser.length) return null;
-
-    return activateUser[0];
+    if(!!activateUser.length) return activateUser[0];
+    return null;
   }
 }
 
