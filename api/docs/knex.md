@@ -3,3 +3,4 @@
 # npx knex migrate:latest
 
 # npx knex migrate:rollback
+# npx knex migrate:rollback --all

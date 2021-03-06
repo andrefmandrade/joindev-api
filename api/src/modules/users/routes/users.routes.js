@@ -6,6 +6,8 @@ const userAuth = require('../../../infra/middlewares/auth/user');
 const usersController = new UsersController();
 const usersRoutes = express.Router();
 
+usersRoutes.get('/activate/:userToken', usersController.activateUser);
+
 usersRoutes.use(apiAuth);
 
 usersRoutes.post('/', usersController.createUser);
