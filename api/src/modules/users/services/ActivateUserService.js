@@ -18,14 +18,11 @@ class ActivateUserService {
     const user = usersExists;
 
     if (!isEmpty(user.confirmated_at))
-    throw new AppError(
+      throw new AppError(
         'Conta já verificada'
       );
 
-    const activateUser = await this.repository.activateUser(user.email);
-
-    return activateUser;
-
+    return await this.repository.activateUser(user.email);
   }
 }
 
