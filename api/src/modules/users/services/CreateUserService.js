@@ -15,12 +15,12 @@ class CreateUserService {
         'O e-mail informado já está em uso por outra conta, por favor insira outro e-mail'
       );
 
-    const passwordEncripted = await bcryptjs.hashSync(password, 10);
+    const passwordEncrypted = await bcryptjs.hashSync(password, 10);
 
     const userCreated = await this.repository.createUser({
       name,
       email,
-      password: passwordEncripted,
+      password: passwordEncrypted,
       is_company: isCompany,
     });
 

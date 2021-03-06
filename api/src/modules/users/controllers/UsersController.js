@@ -1,5 +1,6 @@
 const UsersRepository = require('../repositories/UsersRepository');
 const CreateUserService = require('../services/CreateUserService');
+const ActivateUserService = require('../services/ActivateUserService');
 const SendActivationEmailService = require('../../mails/services/SendActivationEmailService');
 const AppError = require('../../../shared/errors/AppError');
 const { isEmpty, isEmail } = require('../../../shared/utils');
@@ -36,13 +37,24 @@ class UsersController {
     const sendActivationEmailService = new SendActivationEmailService();
     sendActivationEmailService.execute({
       email,
-      url: `/activate?user=${user.userToken}`,
+      url: `/users/activate/${user.userToken}`,
     });
 
     return res.json({
       success: true,
       message: 'Ok',
     });
+  }
+
+  async activateUser(req, res) {
+    const { userToken } = req.params;
+
+    const activateUserService = new ActivateUserService(usersRepository);
+    const isActivation = await activateUserService.execute({
+      userToken
+    });
+
+    return res.json(isActivation);
   }
 }
 

@@ -16,6 +16,19 @@ class UsersRepository {
       .first();
     return user;
   }
+
+  async activateUser(email) {
+    const activateUser = await connection('users')
+      .where({
+        email
+      })
+      .update({
+        confirmated_at: new Date()
+      },
+      ['email', 'confirmated_at']);
+
+    return activateUser;
+  }
 }
 
 module.exports = UsersRepository;
