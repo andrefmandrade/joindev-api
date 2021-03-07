@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const errorHandler = require('../middlewares/errors/processingError');
 const usersRoutes = require('../../modules/users/routes/users.routes');
-// const sessionsRoutes = require('../../modules/users/routes/sessions.routes');
+const sessionsRoutes = require('../../modules/users/routes/sessions.routes');
 
 const routes = express.Router();
 
@@ -16,7 +16,7 @@ routes.use(
 );
 
 routes.use('/users', usersRoutes);
-// routes.use('/sessions', sessionsRoutes);
+routes.use('/sessions', sessionsRoutes);
 
 routes.use(errorHandler);
 
