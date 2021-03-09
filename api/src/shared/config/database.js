@@ -16,15 +16,18 @@ module.exports = {
     user,
     password,
     database,
-    port
+    port,
   },
   migrations: {
     tableName: 'migrations',
     directory: './src/infra/database/migrations',
   },
+  seeds: {
+    directory: './src/infra/database/seeds',
+  },
   pool: {
     min: minPool,
-    max: maxPool
+    max: maxPool,
   },
   useNullAsDefault: true,
-}
+};

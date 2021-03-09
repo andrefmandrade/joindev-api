@@ -1,12 +1,12 @@
 const { options, transporter } = require('../../../shared/config/mail');
-const { serverUrl } = require('../../../shared/config/server');
+const { frontUrl } = require('../../../shared/config/server');
 
 class SendActivationEmailService {
-  execute({ email, url }) {
+  execute({ email, token }) {
     options.to = email;
     options.subject = 'Boas vindas';
     options.html = `<h1>Seja Bem Vindo</h1><br/><p>Acesse ${
-      serverUrl + url
+      frontUrl + '/activate/' + token
     } para ativar a sua conta</p>`;
     transporter.close();
     transporter.sendMail(options, (error, info) => {

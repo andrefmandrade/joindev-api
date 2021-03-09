@@ -37,7 +37,7 @@ class UsersController {
     const sendActivationEmailService = new SendActivationEmailService();
     sendActivationEmailService.execute({
       email,
-      url: `/users/activate/${user.userToken}`,
+      token: user.userToken,
     });
 
     return res.json({
@@ -47,17 +47,18 @@ class UsersController {
   }
 
   async activateUser(req, res) {
-    const { userToken } = req.params;
+    const { userToken } = req.body;
+
+    if (!userToken) throw new AppError('O usuário não foi encontrado');
 
     const activateUserService = new ActivateUserService(usersRepository);
-    const activationComplete = await activateUserService.execute({
-      userToken
+    await activateUserService.execute({
+      userToken,
     });
 
     return res.json({
       success: true,
       message: 'Conta ativada com sucesso',
-      user: activationComplete
     });
   }
 }

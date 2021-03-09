@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node ./src/index",
-    "dev": "nodemon ./src/index.js"
+    "dev": "nodemon ./src/index.js",
+    "db": "npx knex migrate:latest && npx knex seed:run"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

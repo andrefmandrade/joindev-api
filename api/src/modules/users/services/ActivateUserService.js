@@ -10,22 +10,13 @@ class ActivateUserService {
     const email = decrypt(userToken);
     const usersExists = await this.repository.findUserByEmail(email);
 
-    if (!usersExists)
-      throw new AppError(
-        'O usuário não foi encontrado'
-      );
+    if (!usersExists) throw new AppError('O usuário não foi encontrado');
 
-    if (!isEmpty(usersExists.confirmated_at))
-      throw new AppError(
-        'Conta já verificada'
-      );
+    if (!isEmpty(usersExists.confirmated_at)) return;
 
     const activateUser = await this.repository.activateUser(usersExists.email);
 
-    if (!activateUser)
-      throw new AppError(
-        'Não foi possível ativar a conta'
-      );
+    if (!activateUser) throw new AppError('Não foi possível ativar a conta');
 
     return activateUser;
   }
