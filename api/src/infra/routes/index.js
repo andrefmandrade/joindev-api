@@ -10,11 +10,6 @@ routes.get('/favicon.ico', (_, res) =>
   res.sendFile(path.resolve('public', 'favicon.ico'))
 );
 
-routes.use(
-  '/swagger/customCss',
-  express.static(path.resolve('src', 'infra', 'docs', 'custom.css'))
-);
-
 routes.use('/users', usersRoutes);
 // routes.use('/sessions', sessionsRoutes);
 

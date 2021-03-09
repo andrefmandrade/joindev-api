@@ -1,8 +1,10 @@
 const connection = require('../../../infra/database/connection');
 
 class UsersRepository {
-  async createUser(user) {
-    const userSaved = await connection('users').insert(user).returning(['*']);
+  async createUser({ name, email, password, isCompany }) {
+    const userSaved = await connection('users')
+      .insert({ name, email, password, is_company: isCompany })
+      .returning(['*']);
 
     if (!!userSaved.length) return userSaved[0];
     return null;
@@ -20,15 +22,16 @@ class UsersRepository {
   async activateUser(email) {
     const activateUser = await connection('users')
       .where({
-        email
+        email,
       })
-      .update({
-        confirmated_at: new Date()
-      },
-        ['email', 'confirmated_at']
+      .update(
+        {
+          confirmated_at: new Date(),
+        },
+        ['email']
       );
 
-    if(!!activateUser.length) return activateUser[0];
+    if (!!activateUser.length) return activateUser[0];
     return null;
   }
 }

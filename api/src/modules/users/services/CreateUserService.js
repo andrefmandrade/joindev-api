@@ -21,7 +21,7 @@ class CreateUserService {
       name,
       email,
       password: passwordEncrypted,
-      is_company: isCompany,
+      isCompany,
     });
 
     if (!userCreated)
