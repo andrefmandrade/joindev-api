@@ -12,7 +12,8 @@ class ActivateUserService {
 
     if (!usersExists) throw new AppError('O usuário não foi encontrado');
 
-    if (!isEmpty(usersExists.confirmated_at)) return;
+    if (!isEmpty(usersExists.confirmated_at))
+      throw new AppError('A conta já está ativa');
 
     const activateUser = await this.repository.activateUser(usersExists.email);
 
