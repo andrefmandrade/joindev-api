@@ -4,12 +4,7 @@ const CreateResetPasswordService = require('../services/CreateResetPasswordServi
 const ResetPasswordUserService = require('../services/ResetPasswordUserService');
 const SendResetPasswordEmailService = require('../../../shared/mails/SendResetPasswordEmailService');
 const AppError = require('../../../shared/errors/AppError');
-const {
-  isEmpty,
-  diferenceBetweenDates,
-  decrypt,
-  isEmail,
-} = require('../../../shared/utils');
+const { isEmpty, isEmail } = require('../../../shared/utils');
 
 const usersRepository = new UsersRepository();
 const resetPasswordRepository = new ResetPasswordRepository();
