@@ -1,5 +1,5 @@
-const { options, transporter } = require('../../../shared/config/mail');
-const { frontUrl } = require('../../../shared/config/server');
+const { options, transporter } = require('../config/mail');
+const { frontUrl } = require('../config/server');
 
 class SendActivationEmailService {
   execute({ email, token }) {

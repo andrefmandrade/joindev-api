@@ -1,7 +1,7 @@
 const UsersRepository = require('../repositories/UsersRepository');
 const CreateUserService = require('../services/CreateUserService');
 const ActivateUserService = require('../services/ActivateUserService');
-const SendActivationEmailService = require('../../mails/services/SendActivationEmailService');
+const SendActivationEmailService = require('../../../shared/mails/SendActivationEmailService');
 const AppError = require('../../../shared/errors/AppError');
 const { isEmpty, isEmail } = require('../../../shared/utils');
 

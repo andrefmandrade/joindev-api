@@ -1,4 +1,4 @@
-const UsersRepository = require('../repositories/UsersRepository');
+const UsersRepository = require('../../users/repositories/UsersRepository');
 const LoginSessionService = require('../services/LoginSessionService');
 const AppError = require('../../../shared/errors/AppError');
 const { isEmpty, isEmail } = require('../../../shared/utils');

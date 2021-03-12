@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const AppError = require('../../../shared/errors/AppError');
 const { isEmpty, encrypt } = require('../../../shared/utils');
 const authConfig = require('../../../shared/config/auth');
-const SendActivationEmailService = require('../../mails/services/SendActivationEmailService');
+const SendActivationEmailService = require('../../../shared/mails/SendActivationEmailService');
 
 class LoginSessionService {
   constructor(repository) {

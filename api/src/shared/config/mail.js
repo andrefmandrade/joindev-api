@@ -5,15 +5,15 @@ const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
+    pass: process.env.EMAIL_PASS,
+  },
 });
 
 const options = {
-  from: process.env.EMAIL_USER
-}
+  from: `"Joindev Platform" <${process.env.EMAIL_USER}>`,
+};
 
 module.exports = {
   transporter,
-  options
-}
+  options,
+};

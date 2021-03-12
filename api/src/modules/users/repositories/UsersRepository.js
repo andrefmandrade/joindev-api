@@ -10,6 +10,21 @@ class UsersRepository {
     return null;
   }
 
+  async updateUser(user) {
+    const userId = user.id;
+    delete user.id;
+
+    const updated = await connection('users')
+      .where({
+        id: userId,
+      })
+      .update(user)
+      .returning('*');
+
+    if (!!updated.length) return updated[0];
+    return null;
+  }
+
   async findUserByEmail(email) {
     const user = await connection('users')
       .where({
