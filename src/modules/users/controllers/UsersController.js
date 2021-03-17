@@ -42,7 +42,7 @@ class UsersController {
 
     return res.json({
       success: true,
-      message: 'Usuário criado com sucesso',
+      message: 'Usuário criado com sucesso, verifique seu email para ativar sua conta',
     });
   }
 
