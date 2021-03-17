@@ -4,6 +4,6 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "deploy": "cd api && yarn && npx knex migrate:latest && node src/index.js"
+    "deploy": "cd api && npx yarn && npx knex migrate:latest && node src/index.js"
   }
 }
