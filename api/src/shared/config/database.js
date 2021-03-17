@@ -17,6 +17,7 @@ module.exports = {
     password,
     database,
     port,
+    ssl: { rejectUnauthorized: false },
   },
   migrations: {
     tableName: 'migrations',

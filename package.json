@@ -1,0 +1,9 @@
+{
+  "name": "src",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "deploy": "cd api && yarn && npx knex migrate:latest && node src/index.js"
+  }
+}
