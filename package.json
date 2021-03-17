@@ -1,7 +1,7 @@
 {
   "name": "src",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "api/src/index.js",
   "license": "MIT",
   "scripts": {
     "deploy": "cd api && npx yarn && npx knex migrate:latest && node src/index.js"
