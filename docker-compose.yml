@@ -1,22 +1,22 @@
 version: '3.7'
-services: 
+services:
   db:
     image: postgres
     container_name: joindev-postgres-container
     restart: always
-    environment: 
+    environment:
       POSTGRES_PASSWORD: joindev
-    volumes: 
-      - ./api/db/data:/var/lib/postgres
-    ports: 
+    volumes:
+      - ./db/data:/var/lib/postgres
+    ports:
       - '5432:5432'
   api:
-    build: './api'
+    build: './'
     container_name: joindev-node-container
     restart: always
-    volumes: 
-      - ./api:/home/node/app
-    ports: 
+    volumes:
+      - ./:/home/node/app
+    ports:
       - '4000:4000'
-    depends_on: 
+    depends_on:
       - db
