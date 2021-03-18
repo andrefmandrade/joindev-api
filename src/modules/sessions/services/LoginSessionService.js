@@ -34,7 +34,7 @@ class LoginSessionService {
     return {
       name: usersExists.name,
       photo: usersExists.photo,
-      token: jwt.sign({ id: usersExists }, authConfig.secret, {
+      token: jwt.sign({ id: usersExists.id }, authConfig.secret, {
         expiresIn: authConfig.expiresIn,
       }),
     };
