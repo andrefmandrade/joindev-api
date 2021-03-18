@@ -6,7 +6,7 @@ class DropTableInfoService {
   }
 
   async execute() {
-    const tables = ['reset_passwords', 'users'];
+    const tables = ['reset_passwords', 'colabs_rel_tags', 'colabs', 'users'];
     let affectedRows = [];
 
     for (let index = 0; index < tables.length; index++) {
