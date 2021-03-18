@@ -15,7 +15,7 @@ async function userAuth(req, res, next) {
 
   try {
     const { id } = await promisify(jwt.verify)(token, secret);
-    req.userId = id;
+    req.idUser = id;
     return next();
   } catch (e) {
     throw new AppError('Acesso não autorizado, por favor faça login novamente');
