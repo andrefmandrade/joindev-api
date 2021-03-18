@@ -47,7 +47,7 @@ class ResetPasswordUserService {
 
     return {
       name: userSaved.name,
-      email: userSaved.email,
+      photo: userSaved.photo,
       token: jwt.sign({ id: userSaved.id }, authConfig.secret, {
         expiresIn: authConfig.expiresIn,
       }),
