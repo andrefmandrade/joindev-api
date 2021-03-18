@@ -4,6 +4,7 @@ const errorHandler = require('../middlewares/errors/processingError');
 const usersRoutes = require('../../modules/users/routes/users.routes');
 const sessionsRoutes = require('../../modules/sessions/routes/sessions.routes');
 const resetPasswordRoutes = require('../../modules/resetPasswords/routes/resetPassword.routes');
+const adminRoutes = require('../../modules/admin/routes/admin.routes');
 
 const routes = express.Router();
 
@@ -12,6 +13,7 @@ routes.get('/favicon.ico', (_, res) =>
 );
 
 routes.get('/version', (_, res) => res.send('1.0.0'));
+routes.use('/admin', adminRoutes);
 
 routes.use('/users', usersRoutes);
 routes.use('/sessions', sessionsRoutes);
