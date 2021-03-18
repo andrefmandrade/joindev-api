@@ -10,7 +10,7 @@ sessionsRoutes.use(apiAuth);
 
 sessionsRoutes.post('/', sessionsController.loginSession);
 
-usersRoutes.use(userAuth);
+sessionsRoutes.use(userAuth);
 sessionsRoutes.get('/', sessionsController.readSession);
 
 module.exports = sessionsRoutes;
