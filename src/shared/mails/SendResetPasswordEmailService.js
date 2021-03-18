@@ -7,7 +7,7 @@ class SendResetPasswordEmailService {
     return new Promise((resolve) => {
       options.to = email;
       options.subject = 'Recuperação de senha';
-      options.html = `<p>Acesse ${frontUrl}/resetPassword?resettoken=${resetToken}&usertoken=${userToken} para recuperar sua senha.</p>`;
+      options.html = `<p>Acesse ${frontUrl}/resetPassword/${resetToken}/${userToken} para recuperar sua senha.</p>`;
       transporter.close();
       transporter.sendMail(options, (error, info) => {
         if (error) {

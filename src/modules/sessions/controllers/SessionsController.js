@@ -28,6 +28,13 @@ class SessionController {
       user: userAuthenticated,
     });
   }
+
+  async readSession(req, res) {
+    return res.json({
+      success: true,
+      message: 'Usuário logado com sucesso',
+    });
+  }
 }
 
 module.exports = SessionController;
