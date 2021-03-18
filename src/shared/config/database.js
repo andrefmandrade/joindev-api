@@ -9,7 +9,30 @@ const database = process.env.DB_DATABASE;
 const minPool = parseInt(process.env.DB_MIN_POOL);
 const maxPool = parseInt(process.env.DB_MAX_POOL);
 
-module.exports = {
+const development = {
+  client,
+  connection: {
+    host,
+    user,
+    password,
+    database,
+    port
+  },
+  migrations: {
+    tableName: 'migrations',
+    directory: './src/infra/database/migrations',
+  },
+  seeds: {
+    directory: './src/infra/database/seeds',
+  },
+  pool: {
+    min: minPool,
+    max: maxPool,
+  },
+  useNullAsDefault: true,
+};
+
+const production = {
   client,
   connection: {
     host,
@@ -32,3 +55,5 @@ module.exports = {
   },
   useNullAsDefault: true,
 };
+
+module.exports = { development, production };
