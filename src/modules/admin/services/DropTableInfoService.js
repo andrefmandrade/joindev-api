@@ -13,7 +13,6 @@ class DropTableInfoService {
       const tableName = tables[index];
 
       let infoDeleted = await this.repository.dropTableInfo(tableName);
-      console.log(`Droping Table: ${tableName} (${infoDeleted}) records affected`);
 
       let objResponse = {
         table: tableName,
