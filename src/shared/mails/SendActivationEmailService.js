@@ -3,26 +3,23 @@ const path = require('path');
 const { options, transporter } = require('../config/mail');
 const { frontUrl } = require('../config/server');
 const { serverUrl } = require('../config/server');
+const mustache = require('mustache');
 
 class SendActivationEmailService {
   execute({ email, token }) {
-    let activationTemplate = fs.readFileSync(
+    const activationTemplate = fs.readFileSync(
       path.resolve(__dirname, './template/ActivationTemplate.html'),
       'utf8'
     );
 
     const activateUrl = frontUrl + '/activate/' + token;
-    activationTemplate = activationTemplate.replaceAll(
-      '{{activateUrl}}',
-      activateUrl
-    );
 
-    activationTemplate = activationTemplate.replace(
-      '{{logo}}',
-      serverUrl + '/static/logo.png'
-    );
+    const html = mustache.render(template, {
+      activateUrl,
+      logo: serverUrl + '/static/logo.png',
+    });
 
-    options.html = activationTemplate;
+    options.html = html;
     options.to = email;
     options.subject = 'Boas vindas';
 
