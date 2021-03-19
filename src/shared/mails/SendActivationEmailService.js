@@ -1,14 +1,13 @@
-const fs = require('fs');
 const path = require('path');
 const { options, transporter } = require('../config/mail');
 const { frontUrl } = require('../config/server');
 const { serverUrl } = require('../config/server');
+const { readFileAsync } = require('../utils');
 
 class SendActivationEmailService {
-  execute({ email, token }) {
-    let activationTemplate = fs.readFileSync(
-      path.resolve(__dirname, './template/ActivationTemplate.html'),
-      'utf8'
+  async execute({ email, token }) {
+    let activationTemplate = await readFileAsync(
+      path.resolve(__dirname, './template/ActivationTemplate.html')
     );
 
     const activateUrl = frontUrl + '/activate/' + token;
