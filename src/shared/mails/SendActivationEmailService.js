@@ -14,7 +14,7 @@ class SendActivationEmailService {
 
     const activateUrl = frontUrl + '/activate/' + token;
 
-    const html = mustache.render(template, {
+    const html = mustache.render(activationTemplate, {
       activateUrl,
       logo: serverUrl + '/static/logo.png',
     });
