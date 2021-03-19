@@ -12,12 +12,12 @@ class SendActivationEmailService {
     );
 
     const activateUrl = frontUrl + '/activate/' + token;
-    activationTemplate = await activationTemplate.replaceAll(
+    activationTemplate = activationTemplate.replaceAll(
       '{{activateUrl}}',
       activateUrl
     );
 
-    activationTemplate = await activationTemplate.replace(
+    activationTemplate = activationTemplate.replace(
       '{{logo}}',
       serverUrl + '/static/logo.png'
     );
