@@ -13,6 +13,11 @@ routes.get('/favicon.ico', (_, res) =>
   res.sendFile(path.resolve('public', 'favicon.ico'))
 );
 
+routes.use(
+  '/static',
+  express.static(path.resolve('src', 'shared', 'resources', 'img'))
+);
+
 routes.get('/version', (_, res) => res.send('1.0.0'));
 routes.use('/admin', adminRoutes);
 
