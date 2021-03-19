@@ -18,7 +18,7 @@ routes.use(
   express.static(path.resolve('src', 'shared', 'resources', 'img'))
 );
 
-routes.get('/version', (_, res) => res.send('1.0.0'));
+routes.get('/version', (_, res) => res.send('1.1'));
 routes.use('/admin', adminRoutes);
 
 routes.use('/users', usersRoutes);

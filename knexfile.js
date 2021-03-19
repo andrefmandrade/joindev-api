@@ -1,7 +1,7 @@
-const config = require("./src/shared/config/database");
+const config = require('./src/shared/config/database');
 
 module.exports = {
-  development: config.development,
+  development: config.production,
   production: config.production,
   onUpdateTrigger: (table) => `
     CREATE TRIGGER ${table}_updated_at

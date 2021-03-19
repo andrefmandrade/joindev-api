@@ -1,13 +1,30 @@
 const { options, transporter } = require('../config/mail');
 const { frontUrl } = require('../config/server');
+const { serverUrl } = require('../config/server');
 const AppError = require('../errors/AppError');
+const mustache = require('mustache');
+const fs = require('fs');
+const path = require('path');
 
 class SendResetPasswordEmailService {
   execute({ email, resetToken, userToken }) {
     return new Promise((resolve) => {
+      const activationTemplate = fs.readFileSync(
+        path.resolve(__dirname, './template/ResetPasswordTemplate.html'),
+        'utf8'
+      );
+
+      const activateUrl = `${frontUrl}/resetPassword/${resetToken}/${userToken}`;
+
+      const html = mustache.render(activationTemplate, {
+        activateUrl,
+        logo: serverUrl + '/static/logo.png',
+      });
+
+      options.html = html;
+
       options.to = email;
       options.subject = 'Recuperação de senha';
-      options.html = `<p>Acesse ${frontUrl}/resetPassword/${resetToken}/${userToken} para recuperar sua senha.</p>`;
       transporter.close();
       transporter.sendMail(options, (error, info) => {
         if (error) {
