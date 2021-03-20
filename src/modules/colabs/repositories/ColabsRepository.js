@@ -78,6 +78,14 @@ class ColabsRepository {
       colabs,
     };
   }
+
+  async getTagsColab() {
+    const tags = await connection('tags_colabs')
+      .where('deleted', false)
+      .select(['id', 'title']);
+
+    return tags;
+  }
 }
 
 module.exports = ColabsRepository;
