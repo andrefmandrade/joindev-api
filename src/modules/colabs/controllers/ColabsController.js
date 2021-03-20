@@ -1,5 +1,6 @@
 const ColabsRepository = require('../repositories/ColabsRepository');
 const CreateColabService = require('../services/CreateColabService');
+const GetColabService = require('../services/GetColabService');
 const AppError = require('../../../shared/errors/AppError');
 const { isEmpty } = require('../../../shared/utils');
 
@@ -26,6 +27,23 @@ class ColabsController {
     return res.json({
       success: true,
       message: 'Colab criada com sucesso',
+      colab,
+    });
+  }
+
+  async getColab(req, res) {
+    const page = req.query.page || 1;
+    const search = req.query.search || '';
+
+    const getColabService = new GetColabService(colabsRepository);
+    const colab = await getColabService.execute({
+      page,
+      search,
+    });
+
+    return res.json({
+      success: true,
+      message: 'Buscar realizada com sucesso',
       colab,
     });
   }

@@ -1,3 +1,4 @@
+const { count } = require('../../../infra/database/connection');
 const connection = require('../../../infra/database/connection');
 
 class ColabsRepository {
@@ -34,6 +35,48 @@ class ColabsRepository {
       console.error(error);
       return error;
     });
+  }
+
+  async getColab({ page, search }) {
+    const colabs = await connection('colabs')
+      .where(function () {
+        this.where('title', 'ilike', `%${search}%`).orWhere(
+          'text',
+          'ilike',
+          `%${search}%`
+        );
+      })
+      .andWhere('deleted', false)
+      .leftJoin('users', {
+        'users.id': 'colabs.id_user',
+      })
+      .select([
+        'colabs.id',
+        'colabs.title',
+        'colabs.text',
+        'users.name',
+        'colabs.created_at as createdAt',
+      ])
+      .offset((page - 1) * 15)
+      .limit(15);
+
+    const count = await connection('colabs')
+      .where(function () {
+        this.where('title', 'ilike', `%${search}%`).orWhere(
+          'text',
+          'ilike',
+          `%${search}%`
+        );
+      })
+      .andWhere('deleted', false)
+      .count('id')
+      .first();
+
+    return {
+      count: parseInt(count.count),
+      totalPages: Math.ceil(count.count / 15),
+      colabs,
+    };
   }
 }
 
