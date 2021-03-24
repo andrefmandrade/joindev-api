@@ -26,7 +26,7 @@ const corsOptionsDelegate = (req, callback) => {
   callback(null, corsOptions);
 };
 
-app.use(cors(corsOptionsDelegate));
+app.use(cors());
 app.use(helmet());
 app.use(express.json());
 app.use(routes);
