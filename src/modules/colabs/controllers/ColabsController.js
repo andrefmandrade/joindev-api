@@ -9,6 +9,7 @@ const colabsRepository = new ColabsRepository();
 
 class ColabsController {
   async createColab(req, res) {
+    console.log(req.body);
     const { title, text, tags } = req.body;
     const idUser = req.idUser;
 
