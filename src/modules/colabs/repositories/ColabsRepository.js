@@ -1,4 +1,3 @@
-const { count } = require('../../../infra/database/connection');
 const connection = require('../../../infra/database/connection');
 
 class ColabsRepository {
@@ -26,7 +25,6 @@ class ColabsRepository {
             return reject(null);
           })
           .then(() => {
-            console.log('Changes committed');
             t.commit();
           })
           .catch(t.rollback);
