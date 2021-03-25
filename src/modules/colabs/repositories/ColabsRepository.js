@@ -55,7 +55,7 @@ class ColabsRepository {
         'users.name',
         'colabs.created_at as createdAt',
       ])
-      .orderBy('created_at', 'desc')
+      .orderBy('colabs.created_at', 'desc')
       .offset((page - 1) * 15)
       .limit(15);
 
