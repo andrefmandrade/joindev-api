@@ -80,7 +80,7 @@ class ColabsRepository {
   async getTagsColab() {
     const tags = await connection('tags_colabs')
       .where('deleted', false)
-      .select(['id', 'title']);
+      .select(['id as value', 'title as label']);
 
     return tags;
   }
