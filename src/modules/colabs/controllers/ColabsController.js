@@ -46,7 +46,7 @@ class ColabsController {
     return res.json({
       success: true,
       message: 'Busca de colab realizada com sucesso',
-      colab,
+      ...colab,
     });
   }
 
