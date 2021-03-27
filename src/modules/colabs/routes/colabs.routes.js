@@ -10,7 +10,8 @@ colabsRoutes.use(apiAuth);
 colabsRoutes.use(userAuth);
 
 colabsRoutes.post('/', colabsController.createColab);
-colabsRoutes.get('/get', colabsController.getColab);
+colabsRoutes.get('/get', colabsController.getColabs);
+colabsRoutes.get('/get/:id', colabsController.getColab);
 colabsRoutes.get('/tags', colabsController.getTagsColab);
 
 module.exports = colabsRoutes;

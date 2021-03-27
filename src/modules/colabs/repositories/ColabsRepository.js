@@ -35,7 +35,7 @@ class ColabsRepository {
     });
   }
 
-  async getColab({ page, search }) {
+  async getColabs({ page, search }) {
     const colabs = await connection('colabs')
       .where(function () {
         this.where('title', 'ilike', `%${search}%`).orWhere(
@@ -75,6 +75,21 @@ class ColabsRepository {
       count: parseInt(count.count),
       totalPages: Math.ceil(count.count / 15),
       colabs,
+    };
+  }
+
+  async getColab({ id, idUser }) {
+    const colab = await connection('colabs')
+      .where('colabs.id', id)
+      .andWhere('deleted', false)
+      .andWhere('id_user', idUser)
+      .leftJoin('users', {
+        'users.id': 'colabs.id_user',
+      })
+      .select(['colabs.id', 'colabs.title', 'colabs.text', 'users.name']);
+
+    return {
+      colab,
     };
   }
 

@@ -1,6 +1,6 @@
 const AppError = require('../../../shared/errors/AppError');
 
-class GetColabService {
+class GetColabsService {
   constructor(repository) {
     this.repository = repository;
   }
@@ -11,4 +11,4 @@ class GetColabService {
   }
 }
 
-module.exports = GetColabService;
+module.exports = GetColabsService;
