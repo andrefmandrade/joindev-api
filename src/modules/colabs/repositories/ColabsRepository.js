@@ -53,6 +53,7 @@ class ColabsRepository {
         'colabs.title',
         'colabs.text',
         'users.name',
+        'users.photo',
         'colabs.created_at as createdAt',
       ])
       .orderBy('colabs.created_at', 'desc')
@@ -86,7 +87,13 @@ class ColabsRepository {
       .leftJoin('users', {
         'users.id': 'colabs.id_user',
       })
-      .select(['colabs.id', 'colabs.title', 'colabs.text', 'users.name']);
+      .select([
+        'colabs.id',
+        'colabs.title',
+        'colabs.text',
+        'users.name',
+        'users.photo',
+      ]);
 
     return {
       colab,
