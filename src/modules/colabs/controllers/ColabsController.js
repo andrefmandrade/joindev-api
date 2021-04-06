@@ -1,4 +1,5 @@
 const ColabsRepository = require('../repositories/ColabsRepository');
+const UsersRepository = require('../../users/repositories/UsersRepository');
 const CreateColabService = require('../services/CreateColabService');
 const CreateColabCommentService = require('../services/CreateColabCommentService');
 const GetColabsService = require('../services/GetColabsService');
@@ -7,6 +8,7 @@ const AppError = require('../../../shared/errors/AppError');
 const { isEmpty } = require('../../../shared/utils');
 
 const colabsRepository = new ColabsRepository();
+const usersRepository = new UsersRepository();
 
 class ColabsController {
   async createColab(req, res) {
@@ -18,7 +20,10 @@ class ColabsController {
         'Os campos título, texto e tags são obrigatórios, por favor insira-os e tente novamente'
       );
 
-    const createColabService = new CreateColabService(colabsRepository);
+    const createColabService = new CreateColabService(
+      colabsRepository,
+      usersRepository
+    );
     const colab = await createColabService.execute({
       title,
       text,
@@ -88,7 +93,8 @@ class ColabsController {
       );
 
     const createColabCommentService = new CreateColabCommentService(
-      colabsRepository
+      colabsRepository,
+      usersRepository
     );
     const comment = await createColabCommentService.execute({
       text,

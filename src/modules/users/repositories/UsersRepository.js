@@ -34,6 +34,15 @@ class UsersRepository {
     return user;
   }
 
+  async findUserById(idUser) {
+    const user = await connection('users')
+      .where({
+        id: idUser,
+      })
+      .first(['id', 'name', 'email']);
+    return user;
+  }
+
   async activateUser(email) {
     const activateUser = await connection('users')
       .where({

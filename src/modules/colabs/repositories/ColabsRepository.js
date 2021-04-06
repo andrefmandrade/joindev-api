@@ -7,7 +7,7 @@ class ColabsRepository {
         connection('colabs')
           .insert({ title, text, id_user: idUser })
           .transacting(t)
-          .returning(['*'])
+          .returning(['id', 'title', 'text', 'created_at'])
           .then(async (colabInsert) => {
             const colab = colabInsert[0];
 
@@ -111,7 +111,7 @@ class ColabsRepository {
   async createColabComment({ text, idColab, idUser }) {
     const userSaved = await connection('comments_colabs')
       .insert({ text, id_colab: idColab, id_user: idUser })
-      .returning(['id', 'text', 'id_user', 'created_at']);
+      .returning(['id', 'text', 'created_at']);
 
     if (!!userSaved.length) return userSaved[0];
     return null;
