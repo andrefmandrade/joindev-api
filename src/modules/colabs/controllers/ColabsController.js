@@ -1,5 +1,6 @@
 const ColabsRepository = require('../repositories/ColabsRepository');
 const CreateColabService = require('../services/CreateColabService');
+const CreateColabCommentService = require('../services/CreateColabCommentService');
 const GetColabsService = require('../services/GetColabsService');
 const GetTagsColabService = require('../services/GetTagsColabService');
 const AppError = require('../../../shared/errors/AppError');
@@ -9,7 +10,6 @@ const colabsRepository = new ColabsRepository();
 
 class ColabsController {
   async createColab(req, res) {
-    console.log(req.body);
     const { title, text, tags } = req.body;
     const idUser = req.idUser;
 
@@ -75,6 +75,31 @@ class ColabsController {
       success: true,
       message: 'Busca de tags colab realizada com sucesso',
       tags,
+    });
+  }
+
+  async createColabComment(req, res) {
+    const { text, idColab } = req.body;
+    const idUser = req.idUser;
+
+    if (isEmpty(text, idColab))
+      throw new AppError(
+        'Os campos texto e idColab são obrigatórios, por favor insira-os e tente novamente'
+      );
+
+    const createColabCommentService = new CreateColabCommentService(
+      colabsRepository
+    );
+    const comment = await createColabCommentService.execute({
+      text,
+      idColab,
+      idUser,
+    });
+
+    return res.json({
+      success: true,
+      message: 'Comentário criado com sucesso',
+      comment,
     });
   }
 }

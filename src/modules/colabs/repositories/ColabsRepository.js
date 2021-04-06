@@ -107,6 +107,15 @@ class ColabsRepository {
 
     return tags;
   }
+
+  async createColabComment({ text, idColab, idUser }) {
+    const userSaved = await connection('comments_colabs')
+      .insert({ text, id_colab: idColab, id_user: idUser })
+      .returning(['id', 'text', 'id_user', 'created_at']);
+
+    if (!!userSaved.length) return userSaved[0];
+    return null;
+  }
 }
 
 module.exports = ColabsRepository;

@@ -12,6 +12,7 @@ colabsRoutes.use(userAuth);
 colabsRoutes.post('/', colabsController.createColab);
 colabsRoutes.get('/', colabsController.getColabs);
 colabsRoutes.get('/tags', colabsController.getTagsColab);
+colabsRoutes.post('/comments', colabsController.createColabComment);
 colabsRoutes.get('/:id', colabsController.getColab);
 
 module.exports = colabsRoutes;
