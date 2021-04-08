@@ -6,6 +6,7 @@ const sessionsRoutes = require('../../modules/sessions/routes/sessions.routes');
 const resetPasswordRoutes = require('../../modules/resetPasswords/routes/resetPassword.routes');
 const adminRoutes = require('../../modules/admin/routes/admin.routes');
 const colabsRoutes = require('../../modules/colabs/routes/colabs.routes');
+const jobsRoutes = require('../../modules/jobs/routes/jobs.routes');
 
 const routes = express.Router();
 
@@ -25,6 +26,7 @@ routes.use('/users', usersRoutes);
 routes.use('/sessions', sessionsRoutes);
 routes.use('/resetPassword', resetPasswordRoutes);
 routes.use('/colabs', colabsRoutes);
+routes.use('/jobs', jobsRoutes);
 
 routes.use(errorHandler);
 
