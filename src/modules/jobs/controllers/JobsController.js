@@ -1,6 +1,7 @@
 const JobsRepository = require('../repositories/JobsRepository');
 const UsersRepository = require('../../users/repositories/UsersRepository');
 const CreateJobService = require('../services/CreateJobService');
+const GetJobsService = require('../services/GetJobsService');
 const AppError = require('../../../shared/errors/AppError');
 const { isEmpty } = require('../../../shared/utils');
 
@@ -35,6 +36,40 @@ class JobsController {
       success: true,
       message: 'Vaga criada com sucesso',
       job,
+    });
+  }
+
+  async getJobs(req, res) {
+    const page = req.query.page || 1;
+    const search = req.query.search || '';
+
+    const getJobsService = new GetJobsService(jobsRepository);
+    const jobs = await getJobsService.executeGetAll({
+      page,
+      search,
+    });
+
+    return res.json({
+      success: true,
+      message: 'Busca de vagas realizada com sucesso',
+      ...jobs,
+    });
+  }
+
+  async getJob(req, res) {
+    const { id } = req.params;
+    const idUser = req.idUser;
+
+    const getJobsService = new GetJobsService(jobsRepository);
+    const job = await getJobsService.executeGet({
+      id,
+      idUser,
+    });
+
+    return res.json({
+      success: true,
+      message: 'Busca de vaga realizada com sucesso',
+      ...job,
     });
   }
 }

@@ -10,5 +10,7 @@ jobsRoutes.use(apiAuth);
 jobsRoutes.use(userAuth);
 
 jobsRoutes.post('/', jobsController.createJob);
+jobsRoutes.get('/', jobsController.getJobs);
+jobsRoutes.get('/:id', jobsController.getJob);
 
 module.exports = jobsRoutes;

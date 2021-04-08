@@ -17,6 +17,69 @@ class JobsRepository {
     if (!!userSaved.length) return userSaved[0];
     return null;
   }
+
+  async getJobs({ page, search }) {
+    const jobs = await connection('jobs')
+      .where(function () {
+        this.where('title', 'ilike', `%${search}%`).orWhere(
+          'details',
+          'ilike',
+          `%${search}%`
+        );
+      })
+      .leftJoin('users', {
+        'users.id': 'jobs.id_user',
+      })
+      .select([
+        'jobs.id',
+        'jobs.title',
+        'jobs.company',
+        'jobs.city',
+        'users.name',
+        'jobs.created_at as createdAt',
+      ])
+      .orderBy('jobs.created_at', 'desc')
+      .offset((page - 1) * 15)
+      .limit(15);
+
+    const count = await connection('jobs')
+      .where(function () {
+        this.where('title', 'ilike', `%${search}%`).orWhere(
+          'details',
+          'ilike',
+          `%${search}%`
+        );
+      })
+      .count('id')
+      .first();
+
+    return {
+      count: parseInt(count.count),
+      totalPages: Math.ceil(count.count / 15),
+      jobs,
+    };
+  }
+
+  async getJob({ id, idUser }) {
+    const job = await connection('jobs')
+      .where('jobs.id', id)
+      .andWhere('id_user', idUser)
+      .leftJoin('users', {
+        'users.id': 'jobs.id_user',
+      })
+      .select([
+        'jobs.id',
+        'jobs.title',
+        'jobs.company',
+        'jobs.city',
+        'users.name',
+        'users.photo',
+      ]);
+
+    return {
+      job,
+    };
+  }
 }
 
 module.exports = JobsRepository;
