@@ -41,8 +41,8 @@ class JobsRepository {
         'jobs.created_at as createdAt',
       ])
       .orderBy('jobs.created_at', 'desc')
-      .offset((page - 1) * 15)
-      .limit(15);
+      .offset((page - 1) * 20)
+      .limit(20);
 
     const count = await connection('jobs')
       .where(function () {
