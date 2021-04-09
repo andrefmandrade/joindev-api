@@ -35,6 +35,8 @@ class JobsRepository {
         'jobs.title',
         'jobs.company',
         'jobs.city',
+        'jobs.details',
+        'jobs.contact',
         'users.name',
         'jobs.created_at as createdAt',
       ])
