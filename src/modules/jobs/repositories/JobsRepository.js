@@ -19,6 +19,8 @@ class JobsRepository {
   }
 
   async getJobs({ page, search }) {
+    const showTotalOf = 20;
+
     const jobs = await connection('jobs')
       .where(function () {
         this.where('title', 'ilike', `%${search}%`).orWhere(
@@ -41,8 +43,8 @@ class JobsRepository {
         'jobs.created_at as createdAt',
       ])
       .orderBy('jobs.created_at', 'desc')
-      .offset((page - 1) * 20)
-      .limit(20);
+      .offset((page - 1) * showTotalOf)
+      .limit(showTotalOf);
 
     const count = await connection('jobs')
       .where(function () {
@@ -57,7 +59,7 @@ class JobsRepository {
 
     return {
       count: parseInt(count.count),
-      totalPages: Math.ceil(count.count / 15),
+      totalPages: Math.ceil(count.count / showTotalOf),
       jobs,
     };
   }
