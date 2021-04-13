@@ -1,9 +1,18 @@
 const connection = require('../../../infra/database/connection');
+const { serverUrl } = require('../../../shared/config/server');
 
 class EventsRepository {
   async createEvent({ title, address, date, url, details, image, idUser }) {
     const eventSaved = await connection('events')
-      .insert({ title, address, date, url, details, image, id_user: idUser })
+      .insert({
+        title,
+        address,
+        date,
+        url,
+        details,
+        image: `${serverUrl}/images/${image}`,
+        id_user: idUser,
+      })
       .returning([
         'id',
         'title',

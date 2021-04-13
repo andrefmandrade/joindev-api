@@ -16,6 +16,11 @@ routes.get('/favicon.ico', (_, res) =>
 );
 
 routes.use(
+  '/images',
+  express.static(path.resolve('src', 'shared', 'resources', 'uploads'))
+);
+
+routes.use(
   '/static',
   express.static(path.resolve('src', 'shared', 'resources', 'img'))
 );

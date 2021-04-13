@@ -4,16 +4,20 @@ const CreateEventService = require('../services/CreateEventService');
 const GetEventsService = require('../services/GetEventsService');
 const AppError = require('../../../shared/errors/AppError');
 const { isEmpty } = require('../../../shared/utils');
+const multer = require('multer');
+const multerConfig = require('../../../shared/config/multer');
 
 const eventsRepository = new EventsRepository();
 const usersRepository = new UsersRepository();
 
 class EventsController {
   async createEvent(req, res) {
-    const { title, address, date, url, details, image } = req.body;
+    const { title, address, date, url, details } = JSON.parse(
+      JSON.stringify(req.body)
+    );
     const idUser = req.idUser;
 
-    if (isEmpty(title, address, date, url, details, image))
+    if (isEmpty(title, address, date, url, details))
       throw new AppError(
         'Os campos título, endereço, data, url, detalhes e imagem são obrigatórios, por favor insira-os e tente novamente'
       );
@@ -29,7 +33,7 @@ class EventsController {
       date,
       url,
       details,
-      image,
+      image: req.file.filename,
       idUser,
     });
 
