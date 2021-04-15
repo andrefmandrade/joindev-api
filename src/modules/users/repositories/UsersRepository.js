@@ -1,4 +1,8 @@
+const fs = require('fs');
+const path = require('path');
+const bcryptjs = require('bcryptjs');
 const connection = require('../../../infra/database/connection');
+const { serverUrl } = require('../../../shared/config/server');
 
 class UsersRepository {
   async createUser({ name, email, password, isCompany }) {
@@ -11,17 +15,45 @@ class UsersRepository {
   }
 
   async updateUser(user) {
-    const userId = user.id;
-    delete user.id;
+    if (user.image) {
+      const { photo } = await connection('users')
+        .select('photo')
+        .where({ id: user.idUser })
+        .first();
 
-    const updated = await connection('users')
+      if (!!photo) {
+        const fileName = photo.split('/')[photo.split('/').length - 1];
+        const imageToRemovePath = `${path.resolve(
+          'src',
+          'shared',
+          'resources',
+          'uploads'
+        )}\\${fileName}`;
+
+        const fileExists = fs.existsSync(imageToRemovePath);
+
+        if (!!fileExists) {
+          fs.unlink(imageToRemovePath, (error) => {
+            if (error) console.log(error);
+            console.log('File deleted successfully');
+          });
+        }
+      }
+    }
+
+    const userUpdated = await connection('users')
       .where({
-        id: userId,
+        id: user.idUser,
       })
-      .update(user)
+      .update({
+        name: user.name,
+        // isCompany: user.isCompany,
+        // password: user.password,
+        photo: `${serverUrl}/images/${user.image}`,
+      })
       .returning('*');
 
-    if (!!updated.length) return updated[0];
+    if (!!userUpdated.length) return userUpdated[0];
     return null;
   }
 
@@ -57,6 +89,17 @@ class UsersRepository {
 
     if (!!activateUser.length) return activateUser[0];
     return null;
+  }
+
+  async matchPassword(userData) {
+    const { password } = await connection('users')
+      .select('password')
+      .where({ id: userData.idUser })
+      .first();
+
+    const passwordMatch = bcryptjs.compareSync(userData.oldPassword, password);
+
+    return passwordMatch;
   }
 }
 

@@ -2,6 +2,7 @@ const UsersRepository = require('../repositories/UsersRepository');
 const CreateUserService = require('../services/CreateUserService');
 const ActivateUserService = require('../services/ActivateUserService');
 const SendActivationEmailService = require('../../../shared/mails/SendActivationEmailService');
+const UpdateUserService = require('../services/UpdateUserService');
 const AppError = require('../../../shared/errors/AppError');
 const { isEmpty, isEmail } = require('../../../shared/utils');
 
@@ -60,6 +61,71 @@ class UsersController {
     return res.json({
       success: true,
       message: 'Conta ativada com sucesso',
+    });
+  }
+
+  async editUser(req, res) {
+    const {
+      name,
+      isCompany,
+      oldPassword,
+      newPassword,
+      confirmNewPassword,
+    } = req.body;
+
+    const idUser = req.idUser;
+
+    const userUpdate = {};
+    userUpdate.idUser = idUser;
+
+    if (isEmpty(name, isCompany))
+      throw new AppError(
+        'Os campos nome e isCompany são obrigatórios, por favor insira-os e tente novamente'
+      );
+
+    if (
+      (oldPassword || newPassword || confirmNewPassword) &&
+      isEmpty(oldPassword, newPassword, confirmNewPassword)
+    )
+      throw new AppError(
+        'Para alterar senha é necessário inserir os campos senha antiga, nova senha e confirmar nova senha'
+      );
+
+    if (
+      (newPassword || confirmNewPassword) &&
+      confirmNewPassword !== newPassword
+    )
+      throw new AppError('As novas senhas inseridas não combinam');
+
+    const updateUserService = new UpdateUserService(usersRepository);
+
+    if (oldPassword) {
+      const passwordMatch = await updateUserService.passwordMatchExecute({
+        oldPassword,
+        idUser,
+      });
+
+      if (!passwordMatch) throw new AppError('A senha antiga é inválida');
+
+      const newPasswordEncrypted = await updateUserService.passwordEncrypt(
+        newPassword
+      );
+
+      userUpdate.password = newPasswordEncrypted;
+    }
+
+    if (req.body.removePhoto) userUpdate.image = null;
+    if (req.file) userUpdate.image = req.file.filename;
+
+    userUpdate.name = name;
+    userUpdate.isCompany = isCompany;
+
+    const user = await updateUserService.execute(userUpdate);
+
+    return res.json({
+      success: true,
+      message: 'Usuário editado com sucesso',
+      user,
     });
   }
 }

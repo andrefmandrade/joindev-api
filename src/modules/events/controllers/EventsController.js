@@ -4,8 +4,6 @@ const CreateEventService = require('../services/CreateEventService');
 const GetEventsService = require('../services/GetEventsService');
 const AppError = require('../../../shared/errors/AppError');
 const { isEmpty } = require('../../../shared/utils');
-const multer = require('multer');
-const multerConfig = require('../../../shared/config/multer');
 
 const eventsRepository = new EventsRepository();
 const usersRepository = new UsersRepository();
