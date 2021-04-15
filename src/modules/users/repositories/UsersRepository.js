@@ -47,8 +47,8 @@ class UsersRepository {
       })
       .update({
         name: user.name,
-        // isCompany: user.isCompany,
-        // password: user.password,
+        is_company: user.isCompany,
+        password: user.password,
         photo: `${serverUrl}/images/${user.image}`,
       })
       .returning('*');
