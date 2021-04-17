@@ -41,17 +41,26 @@ class UsersRepository {
       }
     }
 
+    const userUpdate = {
+      name: user.name,
+      is_company: user.isCompany,
+    };
+
+    if (!!user.password) {
+      userUpdate.password = user.password;
+    }
+
+    if (user.image === null || !!user.image) {
+      userUpdate.photo =
+        user.image === null ? null : `${serverUrl}/images/${user.image}`;
+    }
+
     const userUpdated = await connection('users')
       .where({
         id: user.idUser,
       })
-      .update({
-        name: user.name,
-        is_company: user.isCompany,
-        password: user.password,
-        photo: `${serverUrl}/images/${user.image}`,
-      })
-      .returning('*');
+      .update(userUpdate)
+      .returning(['name', 'photo', 'is_company as isCompany']);
 
     if (!!userUpdated.length) return userUpdated[0];
     return null;

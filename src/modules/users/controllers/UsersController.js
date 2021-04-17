@@ -114,8 +114,8 @@ class UsersController {
       userUpdate.password = newPasswordEncrypted;
     }
 
-    if (req.body.removePhoto) userUpdate.image = null;
     if (req.file) userUpdate.image = req.file.filename;
+    if (!!req.body.removePhoto) userUpdate.image = null;
 
     userUpdate.name = name;
     userUpdate.isCompany = isCompany;
@@ -124,7 +124,7 @@ class UsersController {
 
     return res.json({
       success: true,
-      message: 'Usuário editado com sucesso',
+      message: 'Usuário atualizado com sucesso',
       user,
     });
   }
