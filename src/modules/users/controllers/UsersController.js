@@ -105,7 +105,8 @@ class UsersController {
         idUser,
       });
 
-      if (!passwordMatch) throw new AppError('A senha antiga é inválida');
+      if (!passwordMatch)
+        throw new AppError('A senha antiga informada é inválida');
 
       const newPasswordEncrypted = await updateUserService.passwordEncrypt(
         newPassword
