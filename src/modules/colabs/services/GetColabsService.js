@@ -22,6 +22,14 @@ class GetColabsService {
 
     return getColabResult;
   }
+
+  async executeGetComments({ id }) {
+    const getCommentsColabsResult = await this.repository.getComments({
+      id,
+    });
+
+    return getCommentsColabsResult;
+  }
 }
 
 module.exports = GetColabsService;

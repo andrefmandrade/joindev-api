@@ -100,6 +100,25 @@ class ColabsRepository {
     };
   }
 
+  async getComments({ id }) {
+    const comments = await connection('comments_colabs')
+      .where('comments_colabs.id_colab', id)
+      .andWhere('deleted', false)
+      .leftJoin('users', {
+        'users.id': 'comments_colabs.id_user',
+      })
+      .select([
+        'comments_colabs.id',
+        'comments_colabs.text',
+        'comments_colabs.created_at as createdAt',
+        'users.name',
+      ]);
+
+    return {
+      comments,
+    };
+  }
+
   async getTagsColab() {
     const tags = await connection('tags_colabs')
       .where('deleted', false)

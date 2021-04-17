@@ -48,6 +48,16 @@ class ColabsController {
       search,
     });
 
+    for (let index = 0; index < colabs.colabs.length; index++) {
+      const element = colabs.colabs[index];
+
+      const comments = await getColabsService.executeGetComments({
+        id: element.id,
+      });
+
+      colabs.colabs[index].comments = comments.comments;
+    }
+
     return res.json({
       success: true,
       message: 'Busca de colab realizada com sucesso',
@@ -64,6 +74,18 @@ class ColabsController {
       id,
       idUser,
     });
+
+    for (let index = 0; index < colab.colab.length; index++) {
+      const element = colab.colab[index];
+
+      const comments = await getColabsService.executeGetComments({
+        id: element.id,
+      });
+
+      colab.colab[index].comments = comments.comments;
+    }
+
+    console.log(colab);
 
     return res.json({
       success: true,
