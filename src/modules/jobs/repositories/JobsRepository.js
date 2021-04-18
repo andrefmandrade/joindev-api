@@ -18,7 +18,7 @@ class JobsRepository {
     return null;
   }
 
-  async getJobs({ page, search }) {
+  async getJobs({ page, search, userId }) {
     const showTotalOf = 20;
 
     const jobs = await connection('jobs')
@@ -28,6 +28,10 @@ class JobsRepository {
           'ilike',
           `%${search}%`
         );
+
+        if (!!userId) {
+          this.where({ id_user: userId });
+        }
       })
       .leftJoin('users', {
         'users.id': 'jobs.id_user',

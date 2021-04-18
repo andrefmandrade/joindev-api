@@ -5,10 +5,11 @@ class GetJobsService {
     this.repository = repository;
   }
 
-  async executeGetAll({ page, search }) {
+  async executeGetAll({ page, search, userId }) {
     const getJobsResult = await this.repository.getJobs({
       page,
       search,
+      userId,
     });
 
     return getJobsResult;
