@@ -28,7 +28,7 @@ class EventsRepository {
     return null;
   }
 
-  async getEvents({ page, search }) {
+  async getEvents({ page, search, userId }) {
     const showTotalOf = 21;
 
     const events = await connection('events')
@@ -38,6 +38,11 @@ class EventsRepository {
           'ilike',
           `%${search}%`
         );
+      })
+      .andWhere((builder) => {
+        if (!!userId) {
+          builder.andWhere('id_user', userId);
+        }
       })
       .leftJoin('users', {
         'users.id': 'events.id_user',

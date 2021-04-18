@@ -5,10 +5,11 @@ class GetEventsService {
     this.repository = repository;
   }
 
-  async executeGetAll({ page, search }) {
+  async executeGetAll({ page, search, userId }) {
     const getEventsResult = await this.repository.getEvents({
       page,
       search,
+      userId,
     });
 
     return getEventsResult;

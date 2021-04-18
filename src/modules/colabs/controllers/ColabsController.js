@@ -41,11 +41,14 @@ class ColabsController {
   async getColabs(req, res) {
     const page = req.query.page || 1;
     const search = req.query.search || '';
+    const userIdFilter = req.query.userId;
+    const idUser = req.idUser;
 
     const getColabsService = new GetColabsService(colabsRepository);
     const colabs = await getColabsService.executeGetAll({
       page,
       search,
+      userId: !!userIdFilter && userIdFilter === 'true' ? idUser : null,
     });
 
     for (let index = 0; index < colabs.colabs.length; index++) {

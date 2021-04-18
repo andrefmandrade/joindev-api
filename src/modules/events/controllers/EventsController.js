@@ -45,11 +45,14 @@ class EventsController {
   async getEvents(req, res) {
     const page = req.query.page || 1;
     const search = req.query.search || '';
+    const userIdFilter = req.query.userId;
+    const idUser = req.idUser;
 
     const getEventsService = new GetEventsService(eventsRepository);
     const events = await getEventsService.executeGetAll({
       page,
       search,
+      userId: !!userIdFilter && userIdFilter === 'true' ? idUser : null,
     });
 
     return res.json({

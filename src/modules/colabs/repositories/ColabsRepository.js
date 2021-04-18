@@ -1,3 +1,4 @@
+const { andWhere } = require('../../../infra/database/connection');
 const connection = require('../../../infra/database/connection');
 
 class ColabsRepository {
@@ -35,7 +36,7 @@ class ColabsRepository {
     });
   }
 
-  async getColabs({ page, search }) {
+  async getColabs({ page, search, userId }) {
     const colabs = await connection('colabs')
       .where(function () {
         this.where('title', 'ilike', `%${search}%`).orWhere(
@@ -43,6 +44,11 @@ class ColabsRepository {
           'ilike',
           `%${search}%`
         );
+      })
+      .andWhere((builder) => {
+        if (!!userId) {
+          builder.andWhere('id_user', userId);
+        }
       })
       .andWhere('deleted', false)
       .leftJoin('users', {
