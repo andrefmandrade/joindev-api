@@ -30,7 +30,7 @@ class JobsRepository {
         );
 
         if (!!userId) {
-          this.where({ id_user: userId });
+          this.andWhere('id_user', userId);
         }
       })
       .leftJoin('users', {
