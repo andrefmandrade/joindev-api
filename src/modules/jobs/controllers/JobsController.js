@@ -42,13 +42,14 @@ class JobsController {
   async getJobs(req, res) {
     const page = req.query.page || 1;
     const search = req.query.search || '';
-    const userId = req.query.userId;
+    const userIdFilter = req.query.userId;
+    const idUser = req.idUser;
 
     const getJobsService = new GetJobsService(jobsRepository);
     const jobs = await getJobsService.executeGetAll({
       page,
       search,
-      userId,
+      userId: !!userIdFilter && userIdFilter === 'true' ? idUser : null,
     });
 
     return res.json({
