@@ -28,9 +28,10 @@ class JobsRepository {
           'ilike',
           `%${search}%`
         );
-
+      })
+      .andWhere((builder) => {
         if (!!userId) {
-          this.andWhere('id_user', userId);
+          builder.andWhere('id_user', userId);
         }
       })
       .leftJoin('users', {
