@@ -74,6 +74,11 @@ class ColabsRepository {
           `%${search}%`
         );
       })
+      .andWhere((builder) => {
+        if (!!userId) {
+          builder.andWhere('id_user', userId);
+        }
+      })
       .andWhere('deleted', false)
       .count('id')
       .first();

@@ -88,8 +88,6 @@ class ColabsController {
       colab.colab[index].comments = comments.comments;
     }
 
-    console.log(colab);
-
     return res.json({
       success: true,
       message: 'Busca de colab realizada com sucesso',

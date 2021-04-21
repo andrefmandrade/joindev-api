@@ -59,6 +59,11 @@ class JobsRepository {
           `%${search}%`
         );
       })
+      .andWhere((builder) => {
+        if (!!userId) {
+          builder.andWhere('id_user', userId);
+        }
+      })
       .count('id')
       .first();
 

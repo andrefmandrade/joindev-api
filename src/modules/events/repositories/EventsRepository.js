@@ -44,6 +44,11 @@ class EventsRepository {
           builder.andWhere('id_user', userId);
         }
       })
+      .andWhere((builder) => {
+        if (!!userId) {
+          builder.andWhere('id_user', userId);
+        }
+      })
       .leftJoin('users', {
         'users.id': 'events.id_user',
       })
