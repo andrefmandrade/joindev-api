@@ -118,7 +118,7 @@ class ColabsRepository {
         'comments_colabs.text',
         'comments_colabs.created_at as createdAt',
         'users.name',
-        'user.photo',
+        'users.photo',
       ]);
 
     return {
