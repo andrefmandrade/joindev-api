@@ -124,7 +124,8 @@ class ColabsRepository {
         'comments_colabs.created_at as createdAt',
         'users.name',
         'users.photo',
-      ]);
+      ])
+      .orderBy('comments_colabs.created_at', 'desc');
 
     return {
       comments,
