@@ -86,9 +86,18 @@ class JobsRepository {
         'jobs.title',
         'jobs.company',
         'jobs.city',
+        'jobs.id_user as owner',
         'users.name',
         'users.photo',
       ]);
+
+    return {
+      job,
+    };
+  }
+
+  async deleteJob({ id }) {
+    const job = await connection('jobs').where('jobs.id', id).del();
 
     return {
       job,

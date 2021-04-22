@@ -12,5 +12,6 @@ jobsRoutes.use(userAuth);
 jobsRoutes.post('/', jobsController.createJob);
 jobsRoutes.get('/', jobsController.getJobs);
 jobsRoutes.get('/:id', jobsController.getJob);
+jobsRoutes.delete('/:id', jobsController.deleteJob);
 
 module.exports = jobsRoutes;

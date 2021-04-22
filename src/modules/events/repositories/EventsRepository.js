@@ -100,9 +100,18 @@ class EventsRepository {
         'events.url',
         'events.details',
         'events.image',
+        'events.id_user as owner',
         'users.name',
         'users.photo',
       ]);
+
+    return {
+      event,
+    };
+  }
+
+  async deleteEvent({ id }) {
+    const event = await connection('events').where('events.id', id).del();
 
     return {
       event,

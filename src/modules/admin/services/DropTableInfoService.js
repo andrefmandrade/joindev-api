@@ -6,7 +6,17 @@ class DropTableInfoService {
   }
 
   async execute() {
-    const tables = ['reset_passwords', 'colabs_rel_tags', 'colabs', 'users'];
+    const tables = [
+      'reset_passwords',
+      'colabs_rel_tags',
+      'comments_colabs',
+      'colabs',
+      'events',
+      'jobs',
+      'users',
+      'migrations',
+      'migrations_lock',
+    ];
     let affectedRows = [];
 
     for (let index = 0; index < tables.length; index++) {
@@ -16,8 +26,8 @@ class DropTableInfoService {
 
       let objResponse = {
         table: tableName,
-        rows: infoDeleted
-      }
+        rows: infoDeleted,
+      };
 
       affectedRows.push(objResponse);
     }

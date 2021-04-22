@@ -2,6 +2,7 @@ const JobsRepository = require('../repositories/JobsRepository');
 const UsersRepository = require('../../users/repositories/UsersRepository');
 const CreateJobService = require('../services/CreateJobService');
 const GetJobsService = require('../services/GetJobsService');
+const DeleteJobService = require('../services/DeleteJobService');
 const AppError = require('../../../shared/errors/AppError');
 const { isEmpty } = require('../../../shared/utils');
 
@@ -73,6 +74,37 @@ class JobsController {
       success: true,
       message: 'Busca de vaga realizada com sucesso',
       ...job,
+    });
+  }
+
+  async deleteJob(req, res) {
+    const { id } = req.params;
+    const idUser = req.idUser;
+
+    const getJobsService = new GetJobsService(jobsRepository);
+    const job = await getJobsService.executeGet({
+      id,
+      idUser,
+    });
+
+    if (!job.job.length) throw new AppError('Vaga inexistente!');
+
+    if (!!job.job.length) {
+      if (job.job[0].owner !== idUser) {
+        throw new AppError('Você não é dono dessa vaga!');
+      }
+    }
+
+    const deleteJobService = new DeleteJobService(jobsRepository);
+    const deleted = await deleteJobService.execute({
+      id,
+      idUser,
+    });
+
+    return res.json({
+      success: deleted > 0,
+      message:
+        deleted > 0 ? 'Vaga deletada com sucesso' : 'Nenhuma vaga foi deletada',
     });
   }
 }

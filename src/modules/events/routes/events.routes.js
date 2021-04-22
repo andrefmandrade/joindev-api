@@ -18,5 +18,6 @@ eventsRoutes.post(
 );
 eventsRoutes.get('/', eventsController.getEvents);
 eventsRoutes.get('/:id', eventsController.getEvent);
+eventsRoutes.delete('/:id', eventsController.deleteEvent);
 
 module.exports = eventsRoutes;

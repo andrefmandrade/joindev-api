@@ -2,6 +2,7 @@ const EventsRepository = require('../repositories/EventsRepository');
 const UsersRepository = require('../../users/repositories/UsersRepository');
 const CreateEventService = require('../services/CreateEventService');
 const GetEventsService = require('../services/GetEventsService');
+const DeleteEventService = require('../services/DeleteEventService');
 const AppError = require('../../../shared/errors/AppError');
 const { isEmpty } = require('../../../shared/utils');
 
@@ -67,7 +68,7 @@ class EventsController {
     const idUser = req.idUser;
 
     const getEventsService = new GetEventsService(eventsRepository);
-    const events = await getEventsService.executeGet({
+    const event = await getEventsService.executeGet({
       id,
       idUser,
     });
@@ -75,7 +76,40 @@ class EventsController {
     return res.json({
       success: true,
       message: 'Busca de evento realizada com sucesso',
-      ...events,
+      ...event,
+    });
+  }
+
+  async deleteEvent(req, res) {
+    const { id } = req.params;
+    const idUser = req.idUser;
+
+    const getEventsService = new GetEventsService(eventsRepository);
+    const event = await getEventsService.executeGet({
+      id,
+      idUser,
+    });
+
+    if (!event.event.length) throw new AppError('Evento inexistente!');
+
+    if (!!event.event.length) {
+      if (event.event[0].owner !== idUser) {
+        throw new AppError('Você não é dono desse evento!');
+      }
+    }
+
+    const deleteEventService = new DeleteEventService(eventsRepository);
+    const deleted = await deleteEventService.execute({
+      id,
+      idUser,
+    });
+
+    return res.json({
+      success: deleted > 0,
+      message:
+        deleted > 0
+          ? 'Evento deletado com sucesso'
+          : 'Nenhum evento foi deletado',
     });
   }
 }
