@@ -102,6 +102,7 @@ class ColabsRepository {
         'colabs.id',
         'colabs.title',
         'colabs.text',
+        'colabs.id_user as owner',
         'users.name',
         'users.photo',
       ]);
@@ -146,6 +147,18 @@ class ColabsRepository {
       .returning(['id', 'text', 'created_at']);
 
     if (!!userSaved.length) return userSaved[0];
+    return null;
+  }
+
+  async deleteColabOrComments(colab) {
+    const wasDeleted = await connection(colab.table)
+      .where({
+        id: colab.id,
+      })
+      .update({ deleted: true })
+      .returning('deleted');
+
+    if (!!wasDeleted.length) return wasDeleted[0];
     return null;
   }
 }

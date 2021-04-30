@@ -4,6 +4,7 @@ const CreateColabService = require('../services/CreateColabService');
 const CreateColabCommentService = require('../services/CreateColabCommentService');
 const GetColabsService = require('../services/GetColabsService');
 const GetTagsColabService = require('../services/GetTagsColabService');
+const DeleteColabService = require('../services/DeleteColabService');
 const AppError = require('../../../shared/errors/AppError');
 const { isEmpty } = require('../../../shared/utils');
 
@@ -129,6 +130,74 @@ class ColabsController {
       success: true,
       message: 'Comentário criado com sucesso',
       comment,
+    });
+  }
+
+  async deleteColab(req, res) {
+    const { id } = req.params;
+    const idUser = req.idUser;
+
+    let affectedRows = 0;
+
+    const getColabsService = new GetColabsService(colabsRepository);
+    const colab = await getColabsService.executeGet({
+      id,
+      idUser,
+    });
+
+    if (!colab.colab.length) throw new AppError('Colab inexistente!');
+
+    for (let index = 0; index < colab.colab.length; index++) {
+      const element = colab.colab[index];
+
+      const comments = await getColabsService.executeGetComments({
+        id: element.id,
+      });
+
+      colab.colab[index].comments = comments.comments;
+    }
+
+    if (!!colab.colab.length) {
+      if (colab.colab[0].owner !== idUser) {
+        throw new AppError('Você não é dono desse colab!');
+      }
+    }
+
+    const deleteColabService = new DeleteColabService(colabsRepository);
+
+    if (!!colab.colab[0].comments.length) {
+      for (let index = 0; index < colab.colab[0].comments.length; index++) {
+        const comment = colab.colab[0].comments[index];
+
+        const deletedComments = await deleteColabService.execute({
+          id: comment.id,
+          idUser,
+          table: 'comments_colabs',
+        });
+
+        if (deletedComments) {
+          affectedRows += 1;
+        }
+      }
+    }
+
+    const deletedColab = await deleteColabService.execute({
+      id,
+      idUser,
+      table: 'colabs',
+    });
+
+    if (deletedColab) {
+      affectedRows += 1;
+    }
+
+    return res.json({
+      success: affectedRows > 0,
+      message:
+        affectedRows > 0
+          ? 'Colab deletado com sucesso'
+          : 'Nenhum colab foi deletado',
+      affectedRows,
     });
   }
 }

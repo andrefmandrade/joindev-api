@@ -14,5 +14,6 @@ colabsRoutes.get('/', colabsController.getColabs);
 colabsRoutes.get('/tags', colabsController.getTagsColab);
 colabsRoutes.post('/comments', colabsController.createColabComment);
 colabsRoutes.get('/:id', colabsController.getColab);
+colabsRoutes.delete('/:id', colabsController.deleteColab);
 
 module.exports = colabsRoutes;
