@@ -1,6 +1,5 @@
 const bcryptjs = require('bcryptjs');
 const AppError = require('../../../shared/errors/AppError');
-const { encrypt } = require('../../../shared/utils');
 
 class UpdateUserService {
   constructor(repository) {

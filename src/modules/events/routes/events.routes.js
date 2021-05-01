@@ -19,5 +19,10 @@ eventsRoutes.post(
 eventsRoutes.get('/', eventsController.getEvents);
 eventsRoutes.get('/:id', eventsController.getEvent);
 eventsRoutes.delete('/:id', eventsController.deleteEvent);
+eventsRoutes.put(
+  '/:id',
+  multer(multerConfig).single('file'),
+  eventsController.editEvent
+);
 
 module.exports = eventsRoutes;

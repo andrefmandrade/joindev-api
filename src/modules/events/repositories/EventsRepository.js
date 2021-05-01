@@ -1,5 +1,7 @@
 const connection = require('../../../infra/database/connection');
 const { serverUrl } = require('../../../shared/config/server');
+const fs = require('fs');
+const path = require('path');
 
 class EventsRepository {
   async createEvent({ title, address, date, url, details, image, idUser }) {
@@ -116,6 +118,56 @@ class EventsRepository {
     return {
       event,
     };
+  }
+
+  async updateEvent(event) {
+    if (event.image) {
+      const { image } = await connection('events')
+        .select('image')
+        .where({ id: event.id })
+        .first();
+
+      if (!!image) {
+        const fileName = image.split('/')[image.split('/').length - 1];
+        const imageToRemovePath = `${path.resolve(
+          'src',
+          'shared',
+          'resources',
+          'uploads'
+        )}\\${fileName}`;
+
+        const fileExists = fs.existsSync(imageToRemovePath);
+
+        if (!!fileExists) {
+          fs.unlink(imageToRemovePath, (error) => {
+            if (error) console.log(error);
+            console.log('File deleted successfully');
+          });
+        }
+      }
+    }
+
+    const eventUpdate = {
+      title: event.title,
+      address: event.address,
+      date: event.date,
+      url: event.url,
+      details: event.details,
+    };
+
+    if (!!event.image) {
+      eventUpdate.image = `${serverUrl}/images/${event.image}`;
+    }
+
+    const eventUpdated = await connection('events')
+      .where({
+        id: event.id,
+      })
+      .update(eventUpdate)
+      .returning(['*']);
+
+    if (!!eventUpdated.length) return eventUpdated[0];
+    return null;
   }
 }
 
