@@ -17,9 +17,9 @@ class EventsController {
     );
     const idUser = req.idUser;
 
-    if (isEmpty(title, address, date, url, details))
+    if (isEmpty(title, address, date, details))
       throw new AppError(
-        'Os campos título, endereço, data, url, detalhes e imagem são obrigatórios, por favor insira-os e tente novamente'
+        'Os campos título, endereço, data, detalhes e imagem são obrigatórios, por favor insira-os e tente novamente'
       );
 
     const createEventService = new CreateEventService(
