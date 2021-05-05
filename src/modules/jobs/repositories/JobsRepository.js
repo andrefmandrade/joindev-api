@@ -103,6 +103,26 @@ class JobsRepository {
       job,
     };
   }
+
+  async updateJob(job) {
+    const jobUpdate = {
+      title: job.title,
+      company: job.company,
+      city: job.city,
+      contact: job.contact,
+      details: job.details,
+    };
+
+    const jobUpdated = await connection('jobs')
+      .where({
+        id: job.id,
+      })
+      .update(jobUpdate)
+      .returning(['*']);
+
+    if (!!jobUpdated.length) return jobUpdated[0];
+    return null;
+  }
 }
 
 module.exports = JobsRepository;

@@ -9,7 +9,7 @@ class UpdateEventService {
     const eventUpdated = await this.repository.updateEvent(event);
 
     if (!eventUpdated)
-      throw new AppError('Ocorreu um erro ao atualizar o usuário');
+      throw new AppError('Ocorreu um erro ao atualizar o evento');
 
     return eventUpdated;
   }

@@ -3,6 +3,7 @@ const UsersRepository = require('../../users/repositories/UsersRepository');
 const CreateJobService = require('../services/CreateJobService');
 const GetJobsService = require('../services/GetJobsService');
 const DeleteJobService = require('../services/DeleteJobService');
+const UpdateJobService = require('../services/UpdateJobService');
 const AppError = require('../../../shared/errors/AppError');
 const { isEmpty } = require('../../../shared/utils');
 
@@ -105,6 +106,53 @@ class JobsController {
       success: deleted > 0,
       message:
         deleted > 0 ? 'Vaga deletada com sucesso' : 'Nenhuma vaga foi deletada',
+    });
+  }
+
+  async editJob(req, res) {
+    const { id } = req.params;
+    const { title, company, city, contact, details } = req.body;
+    const idUser = req.idUser;
+
+    console.log(req.body);
+
+    const jobUpdate = {};
+    jobUpdate.idUser = idUser;
+
+    if (isEmpty(title, company, city, contact, details))
+      throw new AppError(
+        'Os campos título, empresa, cidade, contato e detalhes são obrigatórios, por favor insira-os e tente novamente'
+      );
+
+    const getJobsService = new GetJobsService(jobsRepository);
+    const jobGet = await getJobsService.executeGet({
+      id,
+      idUser,
+    });
+
+    if (!jobGet.job.length) throw new AppError('Vaga inexistente!');
+
+    if (!!jobGet.job.length) {
+      if (jobGet.job[0].owner !== idUser) {
+        throw new AppError('Você não é dono dessa vaga!');
+      }
+    }
+
+    const updateJobService = new UpdateJobService(jobsRepository);
+
+    jobUpdate.id = id;
+    jobUpdate.title = title;
+    jobUpdate.company = company;
+    jobUpdate.city = city;
+    jobUpdate.contact = contact;
+    jobUpdate.details = details;
+
+    const job = await updateJobService.execute(jobUpdate);
+
+    return res.json({
+      success: true,
+      message: 'Vaga atualizado com sucesso',
+      job,
     });
   }
 }

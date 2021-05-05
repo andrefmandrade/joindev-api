@@ -13,5 +13,6 @@ jobsRoutes.post('/', jobsController.createJob);
 jobsRoutes.get('/', jobsController.getJobs);
 jobsRoutes.get('/:id', jobsController.getJob);
 jobsRoutes.delete('/:id', jobsController.deleteJob);
+jobsRoutes.put('/:id', jobsController.editJob);
 
 module.exports = jobsRoutes;
