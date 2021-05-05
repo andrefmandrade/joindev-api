@@ -122,9 +122,9 @@ class EventsController {
     const eventUpdate = {};
     eventUpdate.idUser = idUser;
 
-    if (isEmpty(title, address, date, url, details))
+    if (isEmpty(title, address, date, details))
       throw new AppError(
-        'Os campos titulo, endereço, data, url e detalhes são obrigatórios, por favor insira-os e tente novamente'
+        'Os campos titulo, endereço, data e detalhes são obrigatórios, por favor insira-os e tente novamente'
       );
 
     const getEventsService = new GetEventsService(eventsRepository);
