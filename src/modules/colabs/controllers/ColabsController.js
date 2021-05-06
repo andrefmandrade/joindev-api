@@ -60,6 +60,9 @@ class ColabsController {
         id: element.id,
       });
 
+      const tags = await getColabsService.executeGetTags(element.id);
+      colabs.colabs[index].tags = tags;
+
       colabs.colabs[index].comments = comments.comments;
     }
 
@@ -86,6 +89,9 @@ class ColabsController {
       const comments = await getColabsService.executeGetComments({
         id: element.id,
       });
+
+      const tags = await getColabsService.executeGetTags(element.id);
+      colab.colab[index].tags = tags;
 
       colab.colab[index].comments = comments.comments;
     }

@@ -184,7 +184,16 @@ class ColabsRepository {
   async getTagColab(id_colab) {
     const tags = await connection('colabs_rel_tags')
       .where('id_colab', id_colab)
-      .select(['*']);
+      .leftJoin('tags_colabs', {
+        'tags_colabs.id': 'colabs_rel_tags.id_tag',
+      })
+      .select([
+        'colabs_rel_tags.id',
+        'colabs_rel_tags.id_colab',
+        'tags_colabs.id as id_tag',
+        'tags_colabs.title',
+        'tags_colabs.deleted',
+      ]);
 
     return tags;
   }

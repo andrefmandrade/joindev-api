@@ -31,6 +31,12 @@ class GetColabsService {
 
     return getCommentsColabsResult;
   }
+
+  async executeGetTags(id_colab) {
+    const getColabTagsResult = await this.repository.getTagColab(id_colab);
+
+    return getColabTagsResult;
+  }
 }
 
 module.exports = GetColabsService;
