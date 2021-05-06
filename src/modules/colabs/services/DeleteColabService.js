@@ -14,6 +14,12 @@ class DeleteColabService {
 
     return deleteColabResult;
   }
+
+  async executeTag(tag) {
+    const deleteTagResult = await this.repository.deleteTagColab(tag);
+
+    return deleteTagResult;
+  }
 }
 
 module.exports = DeleteColabService;

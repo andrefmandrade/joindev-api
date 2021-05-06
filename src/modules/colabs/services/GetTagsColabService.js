@@ -1,6 +1,6 @@
 const AppError = require('../../../shared/errors/AppError');
 
-class GetColabsService {
+class GetTagsColabsService {
   constructor(repository) {
     this.repository = repository;
   }
@@ -9,6 +9,11 @@ class GetColabsService {
     const getTagsColabResult = await this.repository.getTagsColab();
     return getTagsColabResult;
   }
+
+  async executeTag(id_colab) {
+    const getTagColabResult = await this.repository.getTagColab(id_colab);
+    return getTagColabResult;
+  }
 }
 
-module.exports = GetColabsService;
+module.exports = GetTagsColabsService;

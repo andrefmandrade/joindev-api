@@ -161,6 +161,51 @@ class ColabsRepository {
     if (!!wasDeleted.length) return wasDeleted[0];
     return null;
   }
+
+  async deleteTagColab(tag) {
+    const wasDeleted = await connection('colabs_rel_tags')
+      .where({
+        id: tag.id,
+      })
+      .del();
+
+    return wasDeleted;
+  }
+
+  async createTagColab(tag) {
+    const tagSaved = await connection('colabs_rel_tags')
+      .insert({ id_colab: tag.id_colab, id_tag: tag.id_tag })
+      .returning(['*']);
+
+    if (!!tagSaved.length) return tagSaved[0];
+    return null;
+  }
+
+  async getTagColab(id_colab) {
+    const tags = await connection('colabs_rel_tags')
+      .where('id_colab', id_colab)
+      .select(['*']);
+
+    return tags;
+  }
+
+  async updateColab(colab) {
+    const colabUpdate = {
+      title: colab.title,
+      text: colab.text,
+      updated_at: 'NOW()',
+    };
+
+    const colabUpdated = await connection('colabs')
+      .where({
+        id: colab.id,
+      })
+      .update(colabUpdate)
+      .returning(['*']);
+
+    if (!!colabUpdated.length) return colabUpdated[0];
+    return null;
+  }
 }
 
 module.exports = ColabsRepository;

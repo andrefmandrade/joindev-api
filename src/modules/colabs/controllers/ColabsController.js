@@ -5,6 +5,7 @@ const CreateColabCommentService = require('../services/CreateColabCommentService
 const GetColabsService = require('../services/GetColabsService');
 const GetTagsColabService = require('../services/GetTagsColabService');
 const DeleteColabService = require('../services/DeleteColabService');
+const UpdateColabService = require('../services/UpdateColabService');
 const AppError = require('../../../shared/errors/AppError');
 const { isEmpty } = require('../../../shared/utils');
 
@@ -198,6 +199,66 @@ class ColabsController {
           ? 'Colab deletado com sucesso'
           : 'Nenhum colab foi deletado',
       affectedRows,
+    });
+  }
+
+  async editColab(req, res) {
+    const { id } = req.params;
+    const { title, text, tags } = req.body;
+    const idUser = req.idUser;
+
+    const colabUpdate = {};
+    colabUpdate.idUser = idUser;
+
+    if (isEmpty(title, text, tags))
+      throw new AppError(
+        'Os campos título, texto e tags são obrigatórios, por favor insira-os e tente novamente'
+      );
+
+    const getColabsService = new GetColabsService(colabsRepository);
+    const colabGet = await getColabsService.executeGet({
+      id,
+      idUser,
+    });
+
+    if (!colabGet.colab.length) throw new AppError('Colab inexistente!');
+
+    const getTagsColabsService = new GetTagsColabService(colabsRepository);
+    const tagGet = await getTagsColabsService.executeTag(id);
+
+    if (!!colabGet.colab.length) {
+      if (colabGet.colab[0].owner !== idUser) {
+        throw new AppError('Você não é dono dessa colab!');
+      }
+    }
+
+    const deleteColabService = new DeleteColabService(colabsRepository);
+
+    for (let index = 0; index < tagGet.length; index++) {
+      const tag = tagGet[index];
+      const deletedTag = await deleteColabService.executeTag(tag);
+    }
+
+    const updateColabService = new UpdateColabService(colabsRepository);
+
+    for (let index = 0; index < tags.length; index++) {
+      const tag = tags[index];
+      const newTags = await updateColabService.executeTag({
+        id_tag: tag.id,
+        id_colab: id,
+      });
+    }
+
+    colabUpdate.id = id;
+    colabUpdate.title = title;
+    colabUpdate.text = text;
+
+    const colab = await updateColabService.execute(colabUpdate);
+
+    return res.json({
+      success: true,
+      message: 'Colab atualizada com sucesso',
+      colab,
     });
   }
 }

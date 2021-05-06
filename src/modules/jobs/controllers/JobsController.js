@@ -114,8 +114,6 @@ class JobsController {
     const { title, company, city, contact, details } = req.body;
     const idUser = req.idUser;
 
-    console.log(req.body);
-
     const jobUpdate = {};
     jobUpdate.idUser = idUser;
 
@@ -151,7 +149,7 @@ class JobsController {
 
     return res.json({
       success: true,
-      message: 'Vaga atualizado com sucesso',
+      message: 'Vaga atualizada com sucesso',
       job,
     });
   }
