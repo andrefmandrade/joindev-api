@@ -4,7 +4,6 @@
       .container {
         text-align: center;
         padding: 60px 20px;
-        background: #212121;
       }
 
       img {
@@ -13,7 +12,7 @@
       }
 
       h1 {
-        color: white;
+        color: #000000;
       }
 
       a {
@@ -21,28 +20,22 @@
       }
 
       p {
-        color: white;
+        color: #000000;
         padding: 0 50px;
         text-align: center;
       }
     </style>
   </head>
   <body>
-    <div
-      class="container"
-      style="text-align: center; padding: 60px 20px; background: #212121"
-    >
-      <img
-        src="{{logo}}"
-        alt="logo"
-        style="margin-top: 60px; margin-bottom: 20px"
-      />
-      <h1 style="color: white">Seja Bem Vindo</h1>
+    <div class="container" style="text-align: center; padding: 60px 20px">
+      <h1>Seja Bem Vindo</h1>
       <br />
-      <p style="color: white; padding: 0 50px; text-align: center">
+      <p style="padding: 0 50px; text-align: center">
         Acesse
-        <a href="{{activateUrl}}" style="color: blue">{{activateUrl}}</a> para
-        ativar a sua conta
+        <a href="{{activateUrl}}" style="color: blue; font-weight: bold"
+          >{{activateUrl}}</a
+        >
+        para ativar a sua conta
       </p>
     </div>
   </body>

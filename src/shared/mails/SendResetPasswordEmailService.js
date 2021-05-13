@@ -18,7 +18,6 @@ class SendResetPasswordEmailService {
 
       const html = mustache.render(activationTemplate, {
         activateUrl,
-        logo: serverUrl + '/static/logo.png',
       });
 
       options.html = html;
