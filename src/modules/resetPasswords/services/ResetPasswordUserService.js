@@ -36,12 +36,11 @@ class ResetPasswordUserService {
 
     if (!user) throw new AppError('O Usuário não foi encontrado');
 
-    const passwordEncripted = await bcryptjs.hashSync(password, 10);
+    const passwordEncrypted = await bcryptjs.hashSync(password, 10);
+    user.password = passwordEncrypted;
+    user.idUser = user.id;
 
-    const userSaved = await this.usersRepository.updateUser({
-      id: user.id,
-      password: passwordEncripted,
-    });
+    const userSaved = await this.usersRepository.updateUser(user);
 
     this.repository.expireRequest(requestReset.id);
 
